@@ -12,7 +12,7 @@ class Auth {
     private static $algorithm = "HS256";
 
     public static function generateToken($userId) {
-        $expirationTime = time() + (60 * 60); // Expira en 1 hora
+        $expirationTime = time() + (60 * 60);
         $payload = [
             'iss' => "tu_sistema",
             'iat' => time(),
@@ -34,15 +34,13 @@ class Auth {
     }
 }
 
-// Recibir el parámetro de consola
 if ($argc < 2) {
     echo "Se debe proporcionar un userId como parámetro.\n";
     exit(1);
 }
 
-$userId = $argv[1]; // Primer argumento de la consola
+$userId = $argv[1];
 
-// Generar el token
 $result = Auth::generateToken($userId);
 $token = $result['token'];
 $expirationTime = $result['exp'];
@@ -50,7 +48,6 @@ $expirationTime = $result['exp'];
 echo "Token generado: " . $token . "\n";
 echo "Fecha de caducidad: " . date('Y-m-d H:i:s', $expirationTime) . "\n";
 
-// Verificar el token
 $decoded = Auth::verifyToken($token);
 if ($decoded) {
     echo "Token válido para el usuario: " . $decoded->sub . "\n";
